@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WhatsApp Chat Visualization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function toggleAlignmentAndColors() {
+            var container = document.querySelector('.chat-container');
+            container.classList.toggle('left-aligned');
+            container.classList.toggle('color-switched');
+        }
+    </script>
+</head>
+<body>
+    <div class="controls">
+        <button onclick="toggleAlignmentAndColors()" class="toggle-button">Toggle Alignment and Color</button>
+        <form action="/" method="post" enctype="multipart/form-data" class="upload-form">
+            <input type="file" name="file" required>
+            <button type="submit">Upload Chat File</button>
+        </form>
+    </div>
+    <div class="chat-container">
+        {% for chat in chats %}
+        <div class="message {{ 'mine' if chat.mine else 'theirs' }}">
+            <div class="bubble">
+                <div class="header">
+                    <strong>{{ chat.sender }}</strong> <em>{{ chat.datetime.strftime('%d.%m.%Y, %H:%M:%S') }}</em>
+                </div>
+                <div class="text">{{ chat.message }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
